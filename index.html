@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Manipulation Tool</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">🖼️ Image Tool</div>
+    <ul class="tabs">
+      <li data-tab="combine" class="active">Combine/Stretch</li>
+      <li data-tab="compress">Compress</li>
+      <li data-tab="convert">Convert</li>
+      <li data-tab="split">Split</li>
+      <li data-tab="ocr">OCR</li>
+    </ul>
+    <button id="darkModeToggle" title="Toggle dark mode">🌙</button>
+  </nav>
+  <main>
+    <section id="combine" class="tab-content active">
+      <h2>Combine Images Vertically</h2>
+      <div class="upload-zone" id="combine-upload">
+        <input type="file" id="combine-files" accept="image/*,.zip,.rar" multiple hidden>
+        <label for="combine-files" class="upload-label">
+          <span>📂 Drag & drop or <b>click to select images, ZIP, or RAR</b></span>
+        </label>
+        <div id="combine-preview-thumbs"></div>
+      </div>
+      <div class="combine-options">
+        <label for="combine-height">Output Height:</label>
+        <select id="combine-height">
+          <option value="7000">7000 px</option>
+          <option value="12000">12000 px</option>
+          <option value="16000">16000 px</option>
+          <option value="20000">20000 px</option>
+        </select>
+        <span class="note">* If combined image height exceeds 20000px, it will be split automatically.</span>
+      </div>
+      <div class="combine-output-folder">
+        <label for="combine-folder">Output Folder Name:</label>
+        <input type="text" id="combine-folder" placeholder="e.g. my_combined_images" style="width:220px;">
+      </div>
+      <div class="combine-preview-container">
+        <div class="combine-preview-scroll">
+          <canvas id="combine-canvas" style="max-width:100%;border:1px solid #ccc;border-radius:8px;"></canvas>
+        </div>
+      </div>
+      <button id="combine-download" class="primary-btn" disabled>Download All</button>
+    </section>
+    <section id="compress" class="tab-content">
+      <h2>Compress & Convert Images</h2>
+      <div class="upload-zone" id="compress-upload">
+        <input type="file" id="compress-files" accept="image/*,.zip,.rar" multiple hidden>
+        <label for="compress-files" class="upload-label">
+          <span>📂 Drag & drop or <b>click to select images, ZIP, or RAR</b></span>
+        </label>
+        <div id="compress-preview-thumbs"></div>
+      </div>
+      <div class="compress-options">
+        <label for="compress-quality">Quality:</label>
+        <input type="range" id="compress-quality" min="0.1" max="1" step="0.01" value="0.8">
+        <span id="compress-quality-value">0.80</span>
+        <span id="compress-format-label">Output Format: <b>Same as input</b></span>
+        <select id="compress-format" style="display:none;">
+          <option value="jpeg">JPEG (.jpg)</option>
+          <option value="webp">WebP (.webp)</option>
+        </select>
+        <label><input type="checkbox" id="compress-convert"> Convert format</label>
+      </div>
+      <div class="compress-preview-container">
+        <div id="compress-preview-list"></div>
+      </div>
+      <div class="compress-output-folder">
+        <label for="compress-folder">Output Folder Name:</label>
+        <input type="text" id="compress-folder" placeholder="e.g. compressed_images" style="width:220px;">
+      </div>
+      <button id="compress-run" class="primary-btn">Compress</button>
+      <button id="compress-download" class="primary-btn" style="display:none;">Download</button>
+    </section>
+    <section id="convert" class="tab-content">
+      <h2>Convert Image Format</h2>
+      <div class="upload-zone" id="convert-upload">
+        <input type="file" id="convert-files" accept="image/*,.zip,.rar" multiple hidden>
+        <label for="convert-files" class="upload-label">
+          <span>📂 Drag & drop or <b>click to select images, ZIP, or RAR</b></span>
+        </label>
+        <div id="convert-preview-thumbs"></div>
+      </div>
+      <div class="convert-options">
+        <label for="convert-format">Output Format:</label>
+        <select id="convert-format">
+          <option value="jpeg">JPEG (.jpg)</option>
+          <option value="png">PNG (.png)</option>
+          <option value="webp">WebP (.webp)</option>
+        </select>
+      </div>
+      <div class="convert-preview-container">
+        <div id="convert-preview-list"></div>
+      </div>
+      <div class="convert-output-folder">
+        <label for="convert-folder">Output Folder Name:</label>
+        <input type="text" id="convert-folder" placeholder="e.g. converted_images" style="width:220px;">
+      </div>
+      <button id="convert-run" class="primary-btn">Convert</button>
+      <button id="convert-download" class="primary-btn" style="display:none;">Download</button>
+    </section>
+    <section id="split" class="tab-content">
+      <h2>Split Images Vertically</h2>
+      <div class="upload-zone" id="split-upload">
+        <input type="file" id="split-files" accept="image/*,.zip,.rar" multiple hidden>
+        <label for="split-files" class="upload-label">
+          <span>📂 Drag & drop or <b>click to select images, ZIP, or RAR</b></span>
+        </label>
+        <div id="split-preview-thumbs"></div>
+      </div>
+      <div class="split-options">
+        <label for="split-parts">Number of Parts:</label>
+        <input type="number" id="split-parts" min="1" value="2" style="width:80px;">
+        <span id="split-parts-hint" class="note"></span>
+        <label><input type="checkbox" id="split-convert"> Convert format</label>
+        <select id="split-format" style="display:none;">
+          <option value="jpeg">JPEG (.jpg)</option>
+          <option value="png">PNG (.png)</option>
+          <option value="webp">WebP (.webp)</option>
+        </select>
+      </div>
+      <div class="split-preview-container">
+        <div id="split-preview-list"></div>
+      </div>
+      <div class="split-output-folder">
+        <label for="split-folder">Output Folder Name:</label>
+        <input type="text" id="split-folder" placeholder="e.g. split_images" style="width:220px;">
+      </div>
+      <button id="split-run" class="primary-btn">Split</button>
+      <button id="split-download" class="primary-btn" style="display:none;">Download</button>
+    </section>
+    <section id="ocr" class="tab-content">
+      <!-- OCR UI will go here -->
+    </section>
+  </main>
+  <script src="js/ui.js"></script>
+  <script src="js/combiner.js"></script>
+  <script src="js/compressor.js"></script>
+  <script src="js/converter.js"></script>
+  <script src="js/splitter.js"></script>
+  <script src="js/ocr.js"></script>
+  <script src="js/lib-zip.js"></script>
+  <script src="js/lib-zip-worker.js"></script>
+  <div id="float-message" style="display:none;"></div>
+  <footer style="text-align:center; margin:2em 0 1em 0; color:#888; font-size:1.05em; letter-spacing:0.03em;">
+    Developed by <b>ENG-AHMED-ALMQTARY</b>
+  </footer>
+</body>
+</html>
