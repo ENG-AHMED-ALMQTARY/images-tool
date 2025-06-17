@@ -16,6 +16,7 @@
       <li data-tab="convert">Convert</li>
       <li data-tab="split">Split</li>
       <li data-tab="ocr">OCR</li>
+      <li data-tab="logo-overlay">Logo Overlay</li>
     </ul>
     <button id="darkModeToggle" title="Toggle dark mode">🌙</button>
   </nav>
@@ -138,7 +139,86 @@
       <button id="split-download" class="primary-btn" style="display:none;">Download</button>
     </section>
     <section id="ocr" class="tab-content">
-      <!-- OCR UI will go here -->
+      <h2>OCR (Extract Text from Images)</h2>
+      <div class="upload-zone" id="ocr-upload">
+        <input type="file" id="ocr-files" accept="image/*,.zip" multiple hidden>
+        <label for="ocr-files" class="upload-label">
+          <span>📂 Drag & drop or <b>click to select images or ZIP</b></span>
+        </label>
+        <div id="ocr-preview-thumbs"></div>
+      </div>
+      <div class="ocr-options">
+        <label for="ocr-lang">Extract Language:</label>
+        <select id="ocr-lang">
+          <option value="eng">English</option>
+          <option value="spa">Spanish</option>
+          <option value="rus">Russian</option>
+          <option value="ind">Indonesian</option>
+          <option value="jpn">Japanese</option>
+          <option value="kor">Korean</option>
+          <option value="chi_sim">Chinese (Simplified)</option>
+        </select>
+        <button id="ocr-start" class="primary-btn">Start OCR</button>
+      </div>
+      <div id="ocr-progress" style="margin:1em 0;display:none;"></div>
+      <div id="ocr-viewer" class="ocr-viewer-container" style="display:none;"></div>
+      <div id="ocr-nav" style="display:none; margin:1em 0; text-align:center;">
+        <button id="ocr-prev" class="primary-btn">Previous</button>
+        <span id="ocr-page-info" style="margin:0 1em;"></span>
+        <button id="ocr-next" class="primary-btn">Next</button>
+      </div>
+      <div id="ocr-summary" style="display:none; margin-top:2em;"></div>
+      <div id="ocr-export" style="display:none; margin-top:2em; text-align:center;">
+        <button id="ocr-copy" class="primary-btn">Copy All Text</button>
+        <button id="ocr-save-txt" class="primary-btn">Save as .txt</button>
+        <button id="ocr-save-docx" class="primary-btn">Save as .docx</button>
+      </div>
+    </section>
+    <section id="logo-overlay" class="tab-content">
+      <h2>Logo Overlay / Placement</h2>
+      <div class="upload-zone" id="logo-image-upload">
+        <input type="file" id="logo-image-files" accept="image/*,.zip" multiple hidden>
+        <label for="logo-image-files" class="upload-label">
+          <span>📂 Drag & drop or <b>click to select images or ZIP</b></span>
+        </label>
+        <div id="logo-image-thumbs"></div>
+      </div>
+      <div class="upload-zone" id="logo-logo-upload">
+        <input type="file" id="logo-logo-files" accept="image/*" multiple hidden>
+        <label for="logo-logo-files" class="upload-label">
+          <span>🖼️ Drag & drop or <b>click to select logo images (PNG recommended)</b></span>
+        </label>
+        <div id="logo-logo-thumbs"></div>
+      </div>
+      <div class="logo-overlay-options">
+        <label for="logo-num">Number of Logos per Image:</label>
+        <select id="logo-num">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+        <button id="logo-start" class="primary-btn">Start Placement</button>
+      </div>
+      <div id="logo-overlay-controls" style="display:none; margin:1em 0; text-align:center;">
+        <button id="logo-prev" class="primary-btn">Previous</button>
+        <span id="logo-page-info" style="margin:0 1em;"></span>
+        <button id="logo-next" class="primary-btn">Next</button>
+      </div>
+      <div id="logo-overlay-canvas-container" style="display:none; text-align:center; margin-bottom:1em;">
+        <canvas id="logo-overlay-canvas" style="max-width:100%; border:1px solid #ccc; border-radius:8px;"></canvas>
+      </div>
+      <div id="logo-overlay-logo-controls" style="display:none; text-align:center; margin-bottom:1em;"></div>
+      <div id="logo-overlay-actions" style="display:none; text-align:center;">
+        <button id="logo-reset" class="primary-btn">Reset Logo Position</button>
+        <button id="logo-export" class="primary-btn">Export Image</button>
+      </div>
     </section>
   </main>
   <script src="js/ui.js"></script>
@@ -149,6 +229,7 @@
   <script src="js/ocr.js"></script>
   <script src="js/lib-zip.js"></script>
   <script src="js/lib-zip-worker.js"></script>
+  <script src="js/logo-overlay.js"></script>
   <div id="float-message" style="display:none;"></div>
   <footer style="text-align:center; margin:2em 0 1em 0; color:#888; font-size:1.05em; letter-spacing:0.03em;">
     Developed by <b>ENG-AHMED-ALMQTARY</b>
